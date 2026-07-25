@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>qwennie — a chat transformer in pure css</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐩</text></svg>">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="model.css">
+</head>
+<body>
+<input class="vh" type="radio" name="q" id="q0">
+<input class="vh" type="radio" name="q" id="q1" checked>
+<input class="vh" type="radio" name="q" id="q2">
+<input class="vh" type="radio" name="q" id="q3">
+<input class="vh" type="radio" name="q" id="q4">
+<input class="vh" type="radio" name="q" id="q5">
+<input class="vh" type="radio" name="q" id="q6">
+<input class="vh" type="radio" name="q" id="q7">
+<input class="vh" type="radio" name="q" id="q8">
+<input class="vh" type="radio" name="q" id="q9">
+<input class="vh" type="radio" name="q" id="q10">
+<input class="vh" type="radio" name="q" id="q11">
+<input class="vh" type="radio" name="roll" id="roll-r1" checked>
+<input class="vh" type="radio" name="roll" id="roll-r2">
+<input class="vh" type="radio" name="roll" id="roll-r3">
+<input class="vh" type="radio" name="roll" id="roll-r4">
+<input class="vh" type="radio" name="tamp" id="tamp-sleepy">
+<input class="vh" type="radio" name="tamp" id="tamp-waggy" checked>
+<input class="vh" type="radio" name="tamp" id="tamp-zoomies">
+<div class="page">
+  <header>
+    <h1>qwennie<span class="paw">🐩</span></h1>
+    <p class="tag">a 78,672 parameter chat transformer that lives entirely in css.
+    real attention, rope, rmsnorm, swiglu, int8 matmuls, a kv cache made of
+    inherited custom properties — and not one line of javascript. pick a
+    message and she replies in a single style pass.</p>
+  </header>
+  <div class="warn">this browser is missing some css math (mod, sign, exp, or style
+  queries). qwennie needs a recent chromium or safari to think. she is not mad, just quiet.</div>
+  <section class="controls" aria-label="chat controls">
+    <div class="group"><span class="glabel">say</span>
+        <label for="q0">hello</label>
+        <label for="q1">who are you ?</label>
+        <label for="q2">how do you work ?</label>
+        <label for="q3">what is css ?</label>
+        <label for="q4">do you like treats ?</label>
+        <label for="q5">tell me about your day</label>
+        <label for="q6">are you a real llm ?</label>
+        <label for="q7">can you help me ?</label>
+        <label for="q8">who is yipsy ?</label>
+        <label for="q9">do you use javascript ?</label>
+        <label for="q10">good girl</label>
+        <label for="q11">tell me a joke</label>
+    </div>
+    <div class="group"><span class="glabel">reroll</span>
+        <label for="roll-r1">🎾</label>
+        <label for="roll-r2">🦴</label>
+        <label for="roll-r3">🧸</label>
+        <label for="roll-r4">🍖</label>
+    </div>
+    <div class="group"><span class="glabel">temperature</span>
+        <label for="tamp-sleepy">sleepy</label>
+        <label for="tamp-waggy">waggy</label>
+        <label for="tamp-zoomies">zoomies</label>
+    </div>
+  </section>
+  <section class="chat">
+    <div class="row user"><p class="bub um"></p></div>
+    <div class="row bot"><span class="avatar">🐩</span><p class="bub qm"><span class="w pw0"><span class="cl p0"><span class="w pw1"><span class="cl p1"><span class="w pw2"><span class="cl p2"><span class="w pw3"><span class="cl p3"><span class="w pw4"><span class="cl p4"><span class="w pw5"><span class="cl p5"><span class="w pw6"><span class="cl p6"><span class="w pw7"><span class="cl p7"><span class="w pw8"><span class="cl p8"><span class="w pw9"><span class="cl p9 gc"><span class="w gw"><span class="g"></span><span class="cl p10 gc"><span class="w gw"><span class="g"></span><span class="cl p11 gc"><span class="w gw"><span class="g"></span><span class="cl p12 gc"><span class="w gw"><span class="g"></span><span class="cl p13 gc"><span class="w gw"><span class="g"></span><span class="cl p14 gc"><span class="w gw"><span class="g"></span><span class="cl p15 gc"><span class="w gw"><span class="g"></span><span class="cl p16 gc"><span class="w gw"><span class="g"></span><span class="cl p17 gc"><span class="w gw"><span class="g"></span><span class="cl p18 gc"><span class="w gw"><span class="g"></span><span class="cl p19 gc"><span class="w gw"><span class="g"></span><span class="cl p20 gc"><span class="w gw"><span class="g"></span><span class="cl p21 gc"><span class="w gw"><span class="g"></span><span class="cl p22 gc"><span class="w gw"><span class="g"></span><span class="cl p23 gc"><span class="w gw"><span class="g"></span><span class="cl p24 gc"><span class="w gw"><span class="g"></span><span class="cl p25 gc"><span class="w gw"><span class="g"></span><span class="cl p26 gc"><span class="w gw"><span class="g"></span><span class="cl p27 gc"><span class="w gw"><span class="g"></span><span class="cl p28 gc"><span class="w gw"><span class="g"></span><span class="cl p29 gc"><span class="w gw"><span class="g"></span><span class="cl p30 gc"><span class="w gw"><span class="g"></span><span class="cl p31 gc"><span class="w gw"><span class="g"></span><span class="cl p32 gc"><span class="w gw"><span class="g"></span><span class="cl p33 gc"><span class="w gw"><span class="g"></span><span class="cl p34 gc"><span class="w gw"><span class="g"></span><span class="end"></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></span></p></div>
+  </section>
+  <footer>
+    <p>she is a real decoder-only transformer: 2 layers, 2 heads, d=48,
+    context 36. every token is one level of dom nesting. attention is unrolled
+    per position — o(t&sup2;) in stylesheet bytes — and softmax runs on css exp().
+    her matmul weights are int8 in weights.json, dequantized into calc() at build
+    time. she was trained from scratch on a tiny original corpus; the name is a
+    homage, no actual qwen weights are involved (they would be several gigabytes
+    of stylesheet, and the browser would simply pass away).</p>
+    <p>her big sister <a href="../yipsy/index.html">yipsy</a> babbles prose next
+    door. wtfpup licensed.</p>
+  </footer>
+</div>
+</body>
+</html>
