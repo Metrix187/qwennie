@@ -78,11 +78,17 @@ The sentences only exist in `expected.json`, which is the answer key, not an inp
 ## Retrain
 
 ```bash
-python train.py  # NumPy transformer, gradchecked backprop, ~15 min CPU → writes weights.json
+python train.py  # NumPy transformer, gradchecked backprop, ~30 min CPU → writes weights.json
 python build.py  # bakes weights.json into model.css + index.html + expected.json
 ```
 
-`build.py` is deterministic: rerunning it on the committed `weights.json` reproduces `model.css` byte-for-byte.
+**The whole pipeline is deterministic, corpus to stylesheet.** `train.py` is seeded, so
+retraining from `corpus.txt` reproduces `weights.json` byte-for-byte — verified on a
+different NumPy version from the one she was trained on — and `build.py` on those weights
+reproduces `model.css` byte-for-byte (sha256 `44b10e1a…`). Nothing in the stylesheet was
+placed by hand, and you can rebuild her from the corpus up and get literally the same dog.
+`train.py` also gradient-checks its hand-derived backprop against finite differences at
+startup before it will train (worst relative error 2.1e-05).
 
 Edit `corpus.txt` (one `question || reply` per line) to change her personality. The twelve UI messages at the top of `build.py` have to be questions the corpus taught her, or she answers in confident nonsense (honestly also cute).
 
