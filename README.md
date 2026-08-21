@@ -9,7 +9,7 @@ A 78,672-parameter decoder-only transformer that runs entirely in CSS. Real arch
 **[Try her live →](https://metrix187.github.io/qwennie/)**
 
 > **you:** who are you ?
-> **qwennie:** qwennie ! seventy one thousand little numbers shaped like a dog .
+> **qwennie:** qwennie! seventy one thousand little numbers shaped like a dog.
 
 (She has 78,672 parameters but believes she has seventy one thousand. She counted twice. Do not correct her.)
 
@@ -25,14 +25,14 @@ Her big sister [yipsy](https://github.com/Metrix187/yipsy) is a char-level MLP i
 
 ## Try it
 
-Open the [live demo](https://metrix187.github.io/qwennie/), or clone and double-click `index.html`. Requires Chromium 125+, Safari 18+, or Firefox 140+ (needs CSS `mod()`, `sign()`, `exp()`, and container style queries). A reply costs about 2.5 seconds of style recalculation. No server. No build step.
+Open the [live demo](https://metrix187.github.io/qwennie/), or clone and double-click `index.html`. Requires **Chromium 138+, Safari 18+, or Firefox 151+**. She needs CSS `mod()`, `sign()`, `abs()`, `exp()`, `sqrt()`, registered custom properties (`@property`), and container style queries on custom properties — the binding constraint is different in each engine: `sign()`/`abs()` in Chromium (138), container style queries in Safari (18) and Firefox (151). A reply costs about 2.5 seconds of style recalculation (measured p50 on Chrome 148, desktop). No server. No build step.
 
 ## What is actually happening
 
 - **Every token position is one level of DOM nesting.** 10 prompt + 26 reply levels. Prompt radios write token IDs onto the prefill wrappers; messages are tokenized at build time because CSS cannot read keyboards.
 - **The transformer step is shared CSS.** One `.cl` rule block runs RMSNorm, Q/K/V/MLP matmuls as int8 sums in `calc()`, SwiGLU, and residuals — re-evaluated at every nesting level with its own inputs.
 - **The KV cache is inherited custom properties.** Each level writes rotated key and value vectors into `--K{layer}p{pos}j{dim}` slots (`inherits: true`). 6,720 registered properties for the cache alone; 9,187 in the stylesheet overall.
-- **Attention is unrolled per position.** RoPE angles are compile-time literals; softmax uses CSS `exp()` with max-subtraction. O(t²) in stylesheet bytes — that's why `model.css` is 8 MB (825 KB gzipped).
+- **Attention is unrolled per position.** RoPE angles are compile-time literals; softmax uses CSS `exp()` with max-subtraction. O(t²) in stylesheet bytes — that's why `model.css` is 8 MB, though it gzips to about 900 KB, which is what you actually download.
 - **Decoding:** logits + per-glyph LCG jitter (`mod(137s+29, 251)`) + argmax via `sign()`. Temperature radios scale the jitter. The `<e>` end token sets a done-flag that blanks every glyph after it.
 - **int8:** matmul weights are int8 with per-channel scales, dequantized into `calc()` at build time.
 

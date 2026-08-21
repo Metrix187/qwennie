@@ -402,8 +402,9 @@ html = f"""<!doctype html>
     inherited custom properties — and not one line of javascript. pick a
     message and she replies in a single style pass.</p>
   </header>
-  <div class="warn">this browser is missing some css math (mod, sign, exp, or style
-  queries). qwennie needs a recent chromium or safari to think. she is not mad, just quiet.</div>
+  <div class="warn">this browser is missing some css math (mod, sign, abs, exp, sqrt,
+  &#64;property, or container style queries). qwennie needs chromium 138+, safari 18+, or
+  firefox 151+ to think. she is not mad, just quiet.</div>
   <section class="controls" aria-label="chat controls">
     <div class="group"><span class="glabel">say</span>
         {qpills}
