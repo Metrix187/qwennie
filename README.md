@@ -25,7 +25,13 @@ Her big sister [yipsy](https://github.com/Metrix187/yipsy) is a char-level MLP i
 
 ## Try it
 
-Open the [live demo](https://metrix187.github.io/qwennie/), or clone and double-click `index.html`. Requires **Chromium 138+, Safari 18+, or Firefox 151+**. She needs CSS `mod()`, `sign()`, `abs()`, `exp()`, `sqrt()`, registered custom properties (`@property`), and container style queries on custom properties — the binding constraint is different in each engine: `sign()`/`abs()` in Chromium (138), container style queries in Safari (18) and Firefox (151). A reply costs about 2.5 seconds of style recalculation (measured p50 on Chrome 148, desktop). No server. No build step.
+Open the [live demo](https://metrix187.github.io/qwennie/), or clone and double-click `index.html`. **Use a Chromium browser (138+).** She needs CSS `mod()`, `sign()`, `abs()`, `exp()`, `sqrt()`, registered custom properties (`@property`), and container style queries on custom properties. Feature-wise that's Chromium 138+, Safari 18+, Firefox 151+ — `sign()`/`abs()` gate Chromium, style queries gate the other two.
+
+But feature support isn't the whole story, and this is the honest bit: **she only works properly in Chromium.** The first render is correct in all three engines — WebKit and Gecko compute the same reply Chromium does, byte for byte. What they don't do is *re-compute* when you pick a different message. In WebKit the reply doesn't change at all; in Gecko it changes halfway, so you get the front of the old reply welded to the end of the new one. Invalidating a custom-property chain 36 levels deep is apparently a place the engines disagree.
+
+Tested with Playwright's WebKit 26.5 and Firefox 153 rather than shipping Safari/Firefox, so treat it as strong evidence and not proof — but don't expect her to behave outside Chromium.
+
+A reply costs about 2.5 seconds of style recalculation (measured p50 on Chrome 148, desktop). No server. No build step.
 
 ## What is actually happening
 
