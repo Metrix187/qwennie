@@ -6,7 +6,7 @@
 
 A 78,672-parameter decoder-only transformer that runs entirely in CSS. Real architecture — 2 layers, 2 heads, d=48, RoPE, RMSNorm, SwiGLU, causal attention with a KV cache — int8 quantized, trained from scratch. Pick a message with a radio button; she writes her reply word-by-word in a single style pass. Zero JavaScript.
 
-**[Try her live →](https://metrix187.github.io/qwennie/)**
+**[Try her live →](https://metrix187.github.io/qwennie/)** · **[Read the full writeup →](https://quantara.cv/articles/qwennie-css-transformer.html)**
 
 > **you:** who are you ?
 > **qwennie:** qwennie! seventy one thousand little numbers shaped like a dog.
