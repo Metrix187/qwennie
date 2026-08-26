@@ -41,6 +41,10 @@
     inherited custom properties — and not one line of javascript. pick a
     message and she replies in a single style pass.</p>
   </header>
+  <div class="engine-warn">heads up: she only re-computes properly in chromium. the
+  first reply below is correct in every engine, but picking a different message won't update
+  it right in this browser — they disagree about invalidating a custom property chain 36
+  levels deep. the readme has the gory version.</div>
   <div class="warn">this browser is missing some css math (mod, sign, abs, exp, sqrt,
   &#64;property, or container style queries). qwennie needs chromium 138+, safari 18+, or
   firefox 151+ to think. she is not mad, just quiet.</div>

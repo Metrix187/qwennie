@@ -80,7 +80,7 @@ header h1 {
   margin-top: 0.5rem;
 }
 
-.warn {
+.warn, .engine-warn {
   background: var(--warn-bg);
   color: var(--warn-ink);
   border-radius: 12px;
@@ -88,6 +88,21 @@ header h1 {
   margin: 1rem 0;
   line-height: 1.4;
 }
+
+/* engine notice. deliberately NOT .warn — model.css hides .warn via the
+   feature-detection container query, which would take this out with it.
+   found that the hard way.
+   she computes the first reply fine everywhere — it's re-invalidation that
+   gecko and webkit get wrong, and no feature query can detect that, so this
+   is engine sniffing. i'm not thrilled about it either. */
+.engine-warn { display: none; }
+
+/* gecko */
+@supports (-moz-orient: inline) { .engine-warn { display: block; } }
+@supports (-moz-appearance: none) { .engine-warn { display: block; } }
+
+/* webkit but not blink — -webkit-named-image never shipped in chromium */
+@supports (background: -webkit-named-image(i)) { .engine-warn { display: block; } }
 
 .controls {
   display: flex;
