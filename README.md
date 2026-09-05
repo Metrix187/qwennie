@@ -135,11 +135,11 @@ A reply costs about twelve seconds of style recalculation. She is thinking as ha
 `v2/verify_v2.py` is the int8 reference forward pass in NumPy. It writes `v2/expected_v2.json` — every token id of all 64 positions, for 6 message pairs × 2 seeds × 3 temperatures. `v2/browser_parity.py` drives headless Chromium and diffs what the stylesheet actually computed against it.
 
 ```bash
-python v2/train_v2.py   # writes weights_v2.json (generated, not committed)
-python v2/verify_v2.py  # writes expected_v2.json
 python -m playwright install chromium
 python v2/browser_parity.py --count 0   # 0 = every case; it batches 6 at a time by default
 ```
+
+`weights_v2.json` and `expected_v2.json` are committed, so that runs straight from a clone. `python v2/verify_v2.py` regenerates the ground truth from the weights if you want to check it yourself.
 
 36/36 at ship time. Every token id across both turns is identical to the Python forward pass — through grouped-query attention, a sparse causal mask, softmax, RMSNorm, SwiGLU and the categorical sampler. `build_v2.py` also reproduces the shipped `model_v2.css` byte-for-byte from `weights_v2.json`.
 
@@ -167,7 +167,7 @@ Training data is `corpus.txt` plus `v2/extra_v2.txt`, which holds the two-turn e
 | `weights.json` | int8 weights + scales + RoPE tables |
 | `expected.json` | Ground truth for parity check |
 
-v2 lives in `v2/` with the same shape — `config.py` holds the architecture constants, `train_v2.py` / `build_v2.py` / `verify_v2.py` are the pipeline, `browser_parity.py` is the Chromium diff, and the generated page is in `v2/site/`. Her weights, ground truth and training checkpoint are generated artifacts and are not committed; `train_v2.py` is seeded, so they rebuild deterministically.
+v2 lives in `v2/` with the same shape — `config.py` holds the architecture constants, `train_v2.py` / `build_v2.py` / `verify_v2.py` are the pipeline, `browser_parity.py` is the Chromium diff, and the generated page is in `v2/site/`. `weights_v2.json` and `expected_v2.json` are committed so the parity check runs from a clone; the PyTorch training checkpoint `train_v2.pt` is not. `train_v2.py` is seeded, so all of it rebuilds deterministically.
 
 ## Status
 
