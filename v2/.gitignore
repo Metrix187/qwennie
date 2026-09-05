@@ -1,0 +1,6 @@
+train_v2.pt
+weights_v2.json
+expected_v2.json
+site/
+__pycache__/
+*.pyc
