@@ -1,11 +1,6 @@
 name: qwennie v2 smoke
 
 on:
-  push:
-    branches: [v2-css-native]
-    paths:
-      - "v2/**"
-      - ".github/workflows/qwennie-v2-smoke.yml"
   workflow_dispatch:
 
 permissions:
