@@ -1,0 +1,11 @@
+{
+  "css_bytes": 15476395,
+  "vocab": 520,
+  "groups": 33,
+  "kv_properties": 6048,
+  "dense_params": 205040,
+  "quant_nonzero": 123376,
+  "quant_total": 204480,
+  "sparse_eligible_nonzero": 80584,
+  "sparse_eligible_total": 161280
+}
