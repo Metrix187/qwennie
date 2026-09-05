@@ -12,13 +12,15 @@ TURN2_START = P1 + A1       # 26
 TURN2_BOT = TURN2_START + P2 - 1  # 35
 TURN2_GEN_START = TURN2_BOT + 1   # 36
 
-D = 72
+# d=80 with five query heads gives a clean 16-dim head while MQA keeps
+# the CSS KV cache tiny: 3 * 63 * 16 * K/V = 6,048 inherited properties.
+D = 80
 L = 3
-Q_HEADS = 4
+Q_HEADS = 5
 KV_HEADS = 1
 HD = D // Q_HEADS
 KV_DIM = KV_HEADS * HD
-MLP = 144
+MLP = 160
 LOCAL_WINDOW = 6
 ROPE_BASE = 10000.0
 EPS = 1e-5
@@ -32,7 +34,7 @@ MIN_LR = 2.5e-4
 WD = 0.01
 DROPOUT = 0.0
 
-# 2:4 is applied after training for the CSS checkpoint; dense weights remain available.
+# 2:4 is applied during the final 40% of training and preserved at export.
 SPARSITY_N = 2
 SPARSITY_M = 4
 
