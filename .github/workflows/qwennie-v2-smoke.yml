@@ -1,0 +1,42 @@
+name: qwennie v2 smoke
+
+on:
+  push:
+    branches: [v2-css-native]
+    paths:
+      - "v2/**"
+      - ".github/workflows/qwennie-v2-smoke.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Syntax
+        run: python -m py_compile v2/config.py v2/train_v2.py v2/verify_v2.py v2/build_v2.py v2/browser_parity.py
+      - name: Install trainer deps
+        run: pip install numpy torch --index-url https://download.pytorch.org/whl/cpu
+      - name: Tiny deterministic export
+        run: python v2/train_v2.py --steps 2 --out v2/weights_smoke.json --checkpoint v2/train_smoke.pt
+      - name: Reference inference
+        run: python v2/verify_v2.py --weights v2/weights_smoke.json --expected v2/expected_smoke.json
+      - name: Compile CSS runtime
+        run: python v2/build_v2.py --weights v2/weights_smoke.json --outdir v2/site_smoke
+      - name: Structural output check
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          m=json.loads(pathlib.Path('v2/site_smoke/manifest.json').read_text())
+          assert m['dense_params'] >= 190000
+          assert m['kv_properties'] < 7000
+          assert pathlib.Path('v2/site_smoke/model_v2.css').stat().st_size > 1000000
+          print(m)
+          PY
