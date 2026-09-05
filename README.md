@@ -132,7 +132,7 @@ A reply costs about twelve seconds of style recalculation. She is thinking as ha
 
 ### v2 verified against NumPy
 
-`v2/verify_v2.py` is the int8 reference forward pass in NumPy. It writes `v2/expected_v2.json` — every token id of all 64 positions, for 6 message pairs × 2 seeds × 3 temperatures. `v2/browser_parity.py` drives headless Chromium and diffs what the stylesheet actually computed against it.
+`v2/verify_v2.py` is the int8 reference forward pass in NumPy. It writes `v2/expected_v2.json` — every token id of all 64 positions, for 6 message pairs × 4 rerolls × 3 temperatures — 72 cases, every reroll button on the page. `v2/browser_parity.py` drives headless Chromium and diffs what the stylesheet actually computed against it.
 
 ```bash
 python -m playwright install chromium
@@ -141,9 +141,7 @@ python v2/browser_parity.py --count 0   # 0 = every case; it batches 6 at a time
 
 `weights_v2.json` and `expected_v2.json` are committed, so that runs straight from a clone. `python v2/verify_v2.py` regenerates the ground truth from the weights if you want to check it yourself.
 
-36/36 at ship time. Every token id across both turns is identical to the Python forward pass — through grouped-query attention, a sparse causal mask, softmax, RMSNorm, SwiGLU and the categorical sampler. `build_v2.py` also reproduces the shipped `model_v2.css` byte-for-byte from `weights_v2.json`.
-
-The suite covers the `ball` and `bone` rerolls. `duck` and `zoom` take the same code path with different seed constants — TODO: fold them into `expected_v2.json` so all four are covered.
+72/72 at ship time. Every token id across both turns is identical to the Python forward pass — through grouped-query attention, a sparse causal mask, softmax, RMSNorm, SwiGLU and the categorical sampler. `build_v2.py` also reproduces the shipped `model_v2.css` byte-for-byte from `weights_v2.json`.
 
 ### Retrain v2
 

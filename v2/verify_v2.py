@@ -115,7 +115,7 @@ def main():
         ('who are you ?','how do you work ?'),('do you like treats ?','what kind ?'),('good girl','who is good ?'),
         ('what is attention ?','all words ?'),('remember snow','what did i say ?'),('can we chat twice ?','now what ?')]
     combos={}
-    for seed in (17,53):
+    for seed in (17,53,101,199):  # every reroll button on the page
         for temp in (.45,.8,1.35):
             for q1,q2 in samples:
                 a1,a2,seq=r.run_chat(q1,q2,seed,temp)
