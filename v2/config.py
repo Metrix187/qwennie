@@ -12,8 +12,6 @@ TURN2_START = P1 + A1       # 26
 TURN2_BOT = TURN2_START + P2 - 1  # 35
 TURN2_GEN_START = TURN2_BOT + 1   # 36
 
-# d=80 with five query heads gives a clean 16-dim head while MQA keeps
-# the CSS KV cache tiny: 3 * 63 * 16 * K/V = 6,048 inherited properties.
 D = 80
 L = 3
 Q_HEADS = 5
@@ -26,6 +24,15 @@ ROPE_BASE = 10000.0
 EPS = 1e-5
 MAX_VOCAB = 544
 
+# CSS-native binary token embeddings. Token ids are first scrambled with an
+# invertible affine map modulo 1024, then represented by ten unique bits. The
+# learned embedding is the scaled sum of one vector for each bit state.
+EMB_BITS = 10
+EMB_CODE_MOD = 1 << EMB_BITS
+EMB_CODE_MUL = 405  # odd => invertible modulo 2^10
+EMB_CODE_ADD = 17
+EMB_SCALE = EMB_BITS ** -0.5
+
 SEED = 17
 STEPS = 1800
 BATCH = 32
@@ -34,7 +41,7 @@ MIN_LR = 2.5e-4
 WD = 0.01
 DROPOUT = 0.0
 
-# 2:4 is applied during the final 40% of training and preserved at export.
+# 2:4 is applied after training for the CSS checkpoint; dense weights remain available.
 SPARSITY_N = 2
 SPARSITY_M = 4
 
