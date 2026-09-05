@@ -6,8 +6,8 @@ v2 is not “v1 with bigger constants.” It changes the architecture around wha
 
 - 64-token fixed causal sequence
 - 3 decoder blocks
-- d=72, SwiGLU MLP=144
-- 4 query heads, 1 shared KV head (MQA), head dim 18
+- d=80, SwiGLU MLP=160
+- 5 query heads, 1 shared KV head (MQA), head dim 16
 - RoPE + RMSNorm
 - local causal attention window of 6 tokens
 - two global assistant-boundary memory anchors
@@ -20,10 +20,10 @@ v2 is not “v1 with bigger constants.” It changes the architecture around wha
 The important number is not merely parameter count. MQA keeps the inherited KV cache to:
 
 ```text
-3 layers × 63 cached positions × 18 KV dims × K/V = 6,804 properties
+3 layers × 63 cached positions × 16 KV dims × K/V = 6,048 properties
 ```
 
-That is roughly v1 cache scale while increasing context length, layer count, width, and query-head count.
+That is below v1's 6,720 KV-property footprint while increasing context length, layer count, width, and query-head count.
 
 ## Files
 
