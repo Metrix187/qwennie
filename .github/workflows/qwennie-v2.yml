@@ -1,0 +1,69 @@
+name: qwennie v2 build
+
+on:
+  workflow_dispatch:
+    inputs:
+      steps:
+        description: Training steps
+        required: true
+        default: "1800"
+      dense_export:
+        description: Export dense weights instead of 2:4 sparse
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  build-v2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install numpy torch --index-url https://download.pytorch.org/whl/cpu
+
+      - name: Train v2
+        shell: bash
+        run: |
+          EXTRA=""
+          if [[ "${{ inputs.dense_export }}" == "true" ]]; then EXTRA="--dense-export"; fi
+          python v2/train_v2.py --steps "${{ inputs.steps }}" $EXTRA
+
+      - name: Verify quantized reference
+        run: python v2/verify_v2.py
+
+      - name: Compile pure CSS site
+        run: python v2/build_v2.py
+
+      - name: Report footprint
+        shell: bash
+        run: |
+          python - <<'PY'
+          import gzip, json, pathlib
+          p = pathlib.Path('v2/site/model_v2.css')
+          m = json.loads(pathlib.Path('v2/site/manifest.json').read_text())
+          raw = p.read_bytes()
+          print(json.dumps(m, indent=2))
+          print(f"model_v2.css raw: {len(raw):,} bytes")
+          print(f"model_v2.css gzip: {len(gzip.compress(raw, compresslevel=9)):,} bytes")
+          PY
+
+      - name: Upload trained checkpoint and site
+        uses: actions/upload-artifact@v4
+        with:
+          name: qwennie-v2-${{ github.sha }}
+          if-no-files-found: error
+          compression-level: 9
+          path: |
+            v2/weights_v2.json
+            v2/expected_v2.json
+            v2/site/
